@@ -2,7 +2,7 @@ const ChessBoard = {
 	lineNum: 15, 
 	cellSize: 80,
 	ctxSize: 1200,
-	draw(ctx) {
+	init(ctx) {
 		ctx.lineWidth = 0.5;
 		for(var i = 1, l = this.lineNum; i < l; i++) {
 			ctx.beginPath();

@@ -1,3 +1,5 @@
 @charset 'UTF-8';
 *{margin: 0; padding: 0;}
-canvas {display: block; width: 600px; height: 600px; margin: 20px auto; border: 1px solid #000;}
+body, html { height: 100%;}
+#container {transform-style: perserve-3d;-webkit-transform-style: preserve-3d;perspective: 2000; -webkit-perspective: 2000; height: 100%; overflow: hidden;}
+canvas {display: block; width: 600px; height: 600px; margin: 20px auto; border: 1px solid #000;  }

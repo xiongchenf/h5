@@ -7,15 +7,21 @@
 	<link rel="stylesheet" href="./css/gobang.css" />
 </head>
 <body>
-	<canvas id="canvas" width="1200" height="1200"></canvas>
+	<div id="container">
+		<canvas id="canvas" width="1200" height="1200"></canvas>
+	</div>
 	<script src="./js/chessboard.js"></script>
-	<script src="./js/checkend.js"></script>
+	<script src="./js/Transform.js"></script>
 	<script src="./js/playchess.js"></script>
 	<script>
 		var canvas = document.getElementById('canvas');
 		var ctx = canvas.getContext('2d');
-		ChessBoard.draw(ctx);
+		// 绘制棋盘
+		ChessBoard.init(ctx);
+		// 游戏初始化
 		Play.init(canvas, ctx);
+		// 棋盘旋转
+		Transform.init(canvas);
 	</script>
 </body>
 </html>

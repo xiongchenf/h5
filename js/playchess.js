@@ -1,6 +1,8 @@
 var Play = {
 	impY: -1,
 	impX: -1,
+	icpX: -1,
+	icpY: -1,
 	chessArr: [],
 	first: true,
 	init(canvas, ctx) {
@@ -9,6 +11,7 @@ var Play = {
 		this.bindEvents();
 		this.resetArr();
 	},
+
 	bindEvents() {
 		this.canvas.addEventListener('click', (e) => {
 			var ol = e.target.offsetLeft,
@@ -78,6 +81,19 @@ var Play = {
 		this.cpY = parseInt(this.pY/40);
 		var fl = -1;
 		if(this.chessArr[this.cpX][this.cpY]['s']) return;
+		if(this.chessArr[this.icpX]) {
+			if(this.chessArr[this.icpX][this.icpY]['s']) {
+				if(this.first) {
+					this.ctx.fillStyle = 'rgb(0, 0, 0)';
+				} else {
+					this.ctx.fillStyle = 'rgb(255, 255, 255)';
+				}
+				this.ctx.arc(this.icpX * 80 + 39, this.icpY * 80 + 39, 34, 0, 2 * Math.PI);
+				this.ctx.fill();
+			}			
+		}
+		this.ctx.closePath();
+		this.ctx.beginPath();
 		if(!this.first) {
 			this.ctx.fillStyle = 'rgb(0, 0, 0)';
 			this.chessArr[this.cpX][this.cpY]['c'] = 1;
@@ -87,12 +103,31 @@ var Play = {
 			this.chessArr[this.cpX][this.cpY]['c'] = 0;
 			fl = 0;
 		}
-		this.first = !this.first;
 		this.ctx.arc(this.cpX * 80 + 39, this.cpY * 80 + 39, 34, 0, 2 * Math.PI);
 		this.ctx.fill();
-		this.ctx.closePath();
+		this.redcross(this.cpX, this.cpY, this.first);
+		this.first = !this.first;
+		this.icpX = this.cpX;
+		this.icpY = this.cpY;
 		this.chessArr[this.cpX][this.cpY]['s'] = true;
 		this.checkend(this.cpX, this.cpY, fl);
+	},
+
+	redcross(x, y, f) {
+		if(!f) {
+			this.ctx.strokeStyle = 'rgb(255, 255, 255)';
+		} else {
+			this.ctx.strokeStyle = 'rgb(0, 0, 0)';
+		}
+		this.ctx.beginPath();
+		this.ctx.lineWidth = 3;
+		this.ctx.moveTo(x * 80 + 29, y * 80 + 39);
+		this.ctx.lineTo(x * 80 + 49, y * 80 + 39);
+		this.ctx.stroke();
+		this.ctx.beginPath();
+		this.ctx.moveTo(x * 80 + 39, y * 80 + 29);
+		this.ctx.lineTo(x * 80 + 39, y * 80 + 49);
+		this.ctx.stroke();
 	},
 
 	checkend(x, y, c) {
