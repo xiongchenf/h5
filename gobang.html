@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的五子棋</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="./css/gobang.css" />
+</head>
+<body>
+	<canvas id="canvas" width="1200" height="1200"></canvas>
+	<script src="./js/chessboard.js"></script>
+	<script src="./js/checkend.js"></script>
+	<script src="./js/playchess.js"></script>
+	<script>
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		ChessBoard.draw(ctx);
+		Play.init(canvas, ctx);
+	</script>
+</body>
+</html>
