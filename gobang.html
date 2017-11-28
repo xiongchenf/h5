@@ -11,9 +11,18 @@
 		<canvas id="canvas" width="1200" height="1200"></canvas>
 	</div>
 	<div class="action">
-		<button id="resetPlay">重玩</button>
-		<button id="pullBack">悔棋</button>
-		<button id="resetTrans">复位旋转</button>
+		<div class="bcontent">
+			<button id="resetPlay">重玩</button>
+			<button id="pullBack">悔棋</button>
+			<button id="resetTrans">复位旋转</button>
+		</div>
+	</div>
+	<div id="cover">
+		<div id="toast">
+			<p>游戏结束白棋胜利！</p>
+			<a href="javascript" id="tryagain">再来一局</a>
+			<a href="javascript" id="endgame">结束游戏</a>
+		</div>
 	</div>
 	<script src="./js/chessboard.js"></script>
 	<script src="./js/Transform.js"></script>
@@ -26,7 +35,7 @@
 		// 游戏初始化
 		Play.init(canvas, ctx);
 		// 棋盘旋转
-		Transform.init(canvas);
+		// Transform.init(canvas);
 	</script>
 </body>
 </html>

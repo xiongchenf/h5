@@ -105,6 +105,7 @@ var Play = {
 		}
 		this.ctx.closePath();
 		this.ctx.beginPath();
+		console.log(this.first);
 		if(!this.first) {
 			this.ctx.fillStyle = 'rgb(0, 0, 0)';
 			this.chessArr[this.cpX][this.cpY]['c'] = 1;
@@ -131,8 +132,15 @@ var Play = {
 
 	pullBackAction() {
 		var len = this.stepmove.length;
-		if(len == 0) return;
+		if(len == 0) {
+			return;
+		}
+		if(len - 1 == 0) {
+			Play.first = true; 
+		}
 		var o = this.stepmove.pop(), f = false;
+		this.chessArr[o.x][o.y]['s'] = false;
+		this.chessArr[o.x][o.y]['c'] = -1;
 		this.ctx.fillStyle='rgb(232, 223, 179)';
 		this.ctx.fillRect(o.x * 80 + 1, o.y * 80 + 1, 78, 78);
 		this.ctx.beginPath();
