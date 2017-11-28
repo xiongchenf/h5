@@ -1,13 +1,23 @@
 const Transform = {
+	dx: 0,
+	dy: 0,
+	dxd: 0,
+	dyd: 0,
+	predy: 0,
+	predx: 0,
 	init(canvas) {
 		let that = this;
 		this.canvas = canvas;
 		this.container = document.getElementById('container');
+		this.resetTrans = document.getElementById('resetTrans');
 		this.addEvent(this.container, 'mousedown', (e) => {
 			that.mousedown(e);
 		}, false);
 		this.addEvent(this.container, 'mouseup', (e) => {
 			that.mouseup(e);
+		}, false);
+		this.addEvent(this.resetTrans, 'click', (e) => {
+			this.canvas.removeAttribute('style');
 		}, false);
 	},
 	mousedown(e) {
@@ -20,15 +30,20 @@ const Transform = {
 		var e = e || window.event;
 		this.sX = null;
 		this.sY = null;
+		this.dyd = this.dx;
 		this.removeEvent(this.container, 'mousemove', this.mousemove, false);
 	},
-
 	mousemove(e) {
 		let that = Transform;
 		var e = e || window.event;
-		var dx = that.sX - e.x;
-		var dy = that.sY - e.y;
-		that.canvas.style.transform = "rotateX("+(dy/4)+"deg)";
+		var dy =  that.sY - e.y;
+		var dyd = dy/40;
+		if(dy < that.predy) {
+			that.sy = e.y;
+		}
+		that.dy += dyd;
+		that.predy = dyd;
+		that.canvas.style.transform = "rotateX("+ that.dy +"deg)";
 	},
 
 	addEvent(elem,event,fn) {

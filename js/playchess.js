@@ -4,16 +4,27 @@ var Play = {
 	icpX: -1,
 	icpY: -1,
 	chessArr: [],
+	stepmove: [],
 	first: true,
 	init(canvas, ctx) {
 		this.canvas = canvas;
+		this.resetPlay = document.getElementById('resetPlay');
+		this.pullBack = document.getElementById('pullBack');
 		this.ctx = ctx;
 		this.bindEvents();
 		this.resetArr();
 	},
 
 	bindEvents() {
-		this.canvas.addEventListener('click', (e) => {
+		this.addEvent(this.resetPlay, 'click', (e) => {
+			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			ChessBoard.init(this.ctx);
+			this.resetArr();
+		}, false);
+		this.addEvent(this.pullBack, 'click', (e) => {
+			this.pullBackAction();
+		}, false);
+		this.addEvent(this.canvas, 'click', (e) => {
 			var ol = e.target.offsetLeft,
 			ot = e.target.offsetTop,
 			x= e.x,
@@ -23,7 +34,7 @@ var Play = {
 			this.pointTo();
 		}, false);
 
-		this.canvas.addEventListener('mousemove', (e) => {
+		this.addEvent(this.canvas, 'mousemove', (e) => {
 			var ol = e.target.offsetLeft,
 			ot = e.target.offsetTop,
 			x= e.x,
@@ -31,7 +42,7 @@ var Play = {
 			this.mpX = x - ol;
 			this.mpY = y - ot;
 			this.movefTo();
-		}, false)
+		}, false);
 	},
 
 	resetArr() {
@@ -41,10 +52,10 @@ var Play = {
 				var o = {};
 				o.s = false;
 				o.c = -1;
-				// 白棋子0 黑棋子 1
 				this.chessArr[i][j] = o;
 			}
 		}
+		this.stepmove = [];
 	},
 
 	movefTo() {
@@ -103,6 +114,11 @@ var Play = {
 			this.chessArr[this.cpX][this.cpY]['c'] = 0;
 			fl = 0;
 		}
+		var o = {};
+		o.x = this.cpX;
+		o.y = this.cpY;
+		o.c = fl;
+		this.stepmove.push(o);
 		this.ctx.arc(this.cpX * 80 + 39, this.cpY * 80 + 39, 34, 0, 2 * Math.PI);
 		this.ctx.fill();
 		this.redcross(this.cpX, this.cpY, this.first);
@@ -111,6 +127,28 @@ var Play = {
 		this.icpY = this.cpY;
 		this.chessArr[this.cpX][this.cpY]['s'] = true;
 		this.checkend(this.cpX, this.cpY, fl);
+	},
+
+	pullBackAction() {
+		var len = this.stepmove.length;
+		if(len == 0) return;
+		var o = this.stepmove.pop(), f = false;
+		this.ctx.fillStyle='rgb(232, 223, 179)';
+		this.ctx.fillRect(o.x * 80 + 1, o.y * 80 + 1, 78, 78);
+		this.ctx.beginPath();
+		var ol = this.stepmove[len - 2];
+		if(ol) {
+			if(ol.c == 0) {
+				this.ctx.fillStyle = 'rgb(255, 255, 255)';
+				f = true;
+			} else {
+				this.ctx.fillStyle = 'rgb(0, 0, 0)';
+				f = false;
+			}
+			this.ctx.arc(ol.x * 80 + 39, ol.y * 80 + 39, 34, 0, 2 * Math.PI);
+			this.ctx.fill();
+			this.redcross(ol.x, ol.y, f);
+		}
 	},
 
 	redcross(x, y, f) {
@@ -257,5 +295,15 @@ var Play = {
 				}
 			}, 300)
 		}
-	}
+	},
+
+	addEvent(elem,event,fn) {
+	    if(elem.addEventListener) {  
+	        elem.addEventListener(event,fn,false);  
+	    }else if (elem.attachEvent) {  
+	        elem.attachEvent('on'+event,fn);  
+	    }else{  
+	        elem['on'+event]=fn;  
+	    }  
+	},
 };
