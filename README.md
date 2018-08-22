@@ -1,5 +1,4 @@
-# h5
-some html 5 code.
+# 五子棋小游戏
 
-use canvas draw a raindrop effect.
+基于canvas开发的h5游戏。
 
